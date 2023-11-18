@@ -1,6 +1,8 @@
 package chatrmi;
 
 // importações
+import chatrmi.rmi.MinhaInterfaceRemota;
+import chatrmi.rmi.MeuObjetoRemoto;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;

@@ -1,5 +1,6 @@
 package chatrmi;
 
+import chatrmi.rmi.MinhaInterfaceRemota;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
@@ -7,6 +8,8 @@ public class ClienteJframeTest extends javax.swing.JFrame {
 
     private static MinhaInterfaceRemota objetoRemoto;
     private static Registry registro;
+    
+    private String nome;
     
     public ClienteJframeTest() {
         initComponents();
@@ -76,7 +79,7 @@ public class ClienteJframeTest extends javax.swing.JFrame {
         });
 
         btnEnviar.setBackground(new java.awt.Color(255, 255, 51));
-        btnEnviar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/chatrmi/enviar.png"))); // NOI18N
+        btnEnviar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/enviar.png"))); // NOI18N
         btnEnviar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEnviarActionPerformed(evt);
@@ -186,9 +189,8 @@ public class ClienteJframeTest extends javax.swing.JFrame {
     private void btnConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConectarActionPerformed
         try {
             registro = LocateRegistry.getRegistry("localhost", 1099); // Localiza o registro RMI no servidor
-            ClienteTest c1 = new ClienteTest();
-            c1.setNome(txtNome.getText());
-            txtArea.setText(c1.getNome() + " entrou no chat!");
+            nome = txtNome.getText();
+            txtArea.setText(nome + " entrou no chat!");
             btnDesconectar.setEnabled(true);
             txtInput.setEnabled(true);
             btnEnviar.setEnabled(true);
@@ -203,7 +205,7 @@ public class ClienteJframeTest extends javax.swing.JFrame {
             String msg = txtInput.getText();
             String resultado = objetoRemoto.enviarMsg(msg); // Chama o método remoto
             
-                    // Obtenha o texto atual na caixa de texto
+            // Obtenha o texto atual na caixa de texto
             String textoAtual = txtArea.getText();
 
             // Concatene a nova mensagem com o texto atual, adicionando uma quebra de linha se necessário
