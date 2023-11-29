@@ -1,17 +1,16 @@
-package chatrmi;
+package chatrmi.servidor;
 
 // importações
-import chatrmi.rmi.MinhaInterfaceRemota;
-import chatrmi.rmi.MeuObjetoRemoto;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import javax.swing.SwingUtilities;
+import chatrmi.stub.ChatIF;
 
 public class Servidor extends javax.swing.JFrame {
     
     // criando uma variável global para o objeto remoto
-    private static MinhaInterfaceRemota objetoRemoto;
+    private static ChatIF objetoRemoto;
 
     public Servidor() {
         initComponents();
@@ -37,7 +36,6 @@ public class Servidor extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 214, 72));
         jLabel2.setText("Servidor");
 
-        jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Everton Leon\\Documents\\NetBeansProjects\\ChatRMI_Servidor\\cloud.png")); // NOI18N
         jLabel3.setText("jLabel3");
 
         btnIniciar.setBackground(new java.awt.Color(0, 255, 0));
@@ -121,7 +119,7 @@ public class Servidor extends javax.swing.JFrame {
 
         // realiza a criação no Objeto remoto, registra e inicializa o servidor
         try {
-            objetoRemoto = new MeuObjetoRemoto();
+            objetoRemoto = new ChatObj();
             Registry registro = LocateRegistry.createRegistry(1099); // Cria um registro na porta 1099
             lblMsgPorta.setText("Servidor inicializado na porta 1099...");
             registro.rebind("MeuObjetoRemoto", objetoRemoto); // Registra o objeto remoto no registro
