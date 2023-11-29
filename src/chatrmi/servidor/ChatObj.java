@@ -4,10 +4,12 @@ import chatrmi.stub.ChatIF;
 import chatrmi.stub.ClientListenerIF;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-class ChatObj extends UnicastRemoteObject implements ChatIF{
+class ChatObj extends UnicastRemoteObject implements ChatIF{   
     List<String> messageLog = new ArrayList<>();
     List<ClientListenerIF> clientes = new ArrayList<>();
     public ChatObj() throws RemoteException {
@@ -16,7 +18,9 @@ class ChatObj extends UnicastRemoteObject implements ChatIF{
 
     @Override
     public void enviarMsg(String user, String msg) throws RemoteException {
-        String displayMsg = user+": "+msg;
+        Date dataHoraAtual = new Date();
+        String hora = new SimpleDateFormat("HH:mm:ss").format(dataHoraAtual);
+        String displayMsg = "[" + hora + "] " + user + ": "+msg;
         messageLog.add(displayMsg);
         for (var cliente : clientes) {
             cliente.notificar(displayMsg);
@@ -36,6 +40,6 @@ class ChatObj extends UnicastRemoteObject implements ChatIF{
     @Override
     public void registrarCliente(ClientListenerIF cl, String nome) throws RemoteException {
         clientes.add(cl);
-        enviarMsg("Servidor", nome+" entrou no chat");
+        enviarMsg("Servidor", nome+" entrou no chat!");
     }
 }

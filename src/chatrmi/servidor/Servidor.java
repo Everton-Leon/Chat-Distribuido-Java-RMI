@@ -75,11 +75,11 @@ public class Servidor extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnParar)
                     .addComponent(jLabel2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(72, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(66, Short.MAX_VALUE)
-                .addComponent(lblMsgPorta, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43))
+                .addGap(33, 33, 33)
+                .addComponent(lblMsgPorta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(33, 33, 33))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -121,7 +121,7 @@ public class Servidor extends javax.swing.JFrame {
         try {
             objetoRemoto = new ChatObj();
             Registry registro = LocateRegistry.createRegistry(1099); // Cria um registro na porta 1099
-            lblMsgPorta.setText("Servidor inicializado na porta 1099...");
+            lblMsgPorta.setText("Servidor inicializado na porta 1099");
             registro.rebind("MeuObjetoRemoto", objetoRemoto); // Registra o objeto remoto no registro
             System.out.println("Servidor RMI pronto.");
         } catch (Exception e) {

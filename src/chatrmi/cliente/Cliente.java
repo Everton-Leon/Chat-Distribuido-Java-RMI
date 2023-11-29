@@ -5,6 +5,7 @@ import java.rmi.registry.Registry;
 import chatrmi.stub.ChatIF;
 import chatrmi.stub.ClientListenerIF;
 import java.awt.CardLayout;
+import java.awt.Font;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -151,10 +152,10 @@ public class Cliente extends javax.swing.JFrame {
                     .addGroup(panelLoginLayout.createSequentialGroup()
                         .addGap(101, 101, 101)
                         .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnConectar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel2)
-                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(215, Short.MAX_VALUE))
+                            .addComponent(txtNome)
+                            .addComponent(btnConectar, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE))))
+                .addContainerGap(129, Short.MAX_VALUE))
         );
         panelLoginLayout.setVerticalGroup(
             panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,7 +168,7 @@ public class Cliente extends javax.swing.JFrame {
                 .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnConectar)
-                .addContainerGap(159, Short.MAX_VALUE))
+                .addContainerGap(172, Short.MAX_VALUE))
         );
 
         panelCard.add(panelLogin, "login");
@@ -213,7 +214,7 @@ public class Cliente extends javax.swing.JFrame {
             panelChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelChatLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -252,6 +253,11 @@ public class Cliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtInputActionPerformed
 
     private void btnConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConectarActionPerformed
+        if (txtNome.getText().isBlank()) {
+            JOptionPane.showMessageDialog(this, "O nome não pode ser nulo", "Digite um nome", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         try {
             registro = LocateRegistry.getRegistry("localhost", 1099); // Localiza o registro RMI no servidor
             chat = (ChatIF) registro.lookup("MeuObjetoRemoto"); // Procura o objeto remoto
