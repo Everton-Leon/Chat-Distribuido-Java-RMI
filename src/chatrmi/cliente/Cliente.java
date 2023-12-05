@@ -5,10 +5,10 @@ import java.rmi.registry.Registry;
 import chatrmi.stub.ChatIF;
 import chatrmi.stub.ClientListenerIF;
 import java.awt.CardLayout;
-import java.awt.Font;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,14 +30,13 @@ public class Cliente extends javax.swing.JFrame {
 
         @Override
         public void atualizarClientes() throws RemoteException {
-            preencherLista(chat.getClientes());
+            atualizarLista();
         }
 
         @Override
         public String getNome() throws RemoteException {
             return nome;
         }
-        
     }
 
     private static ChatIF chat;
@@ -48,6 +47,7 @@ public class Cliente extends javax.swing.JFrame {
     
     public Cliente() {
         initComponents();
+        btnSair.setVisible(false);
     }    
 
     /**
@@ -63,7 +63,7 @@ public class Cliente extends javax.swing.JFrame {
         jDialog1 = new javax.swing.JDialog();
         jDialog2 = new javax.swing.JDialog();
         panelHeader = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnSair = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
         panelCard = new javax.swing.JPanel();
         panelLogin = new javax.swing.JPanel();
@@ -76,7 +76,7 @@ public class Cliente extends javax.swing.JFrame {
         txtArea = new javax.swing.JTextArea();
         txtInput = new javax.swing.JTextField();
         btnEnviar = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        scrollListClientes = new javax.swing.JScrollPane();
         jlistClientes = new javax.swing.JList<>();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
@@ -114,12 +114,12 @@ public class Cliente extends javax.swing.JFrame {
         panelHeader.setBackground(new java.awt.Color(0, 0, 0));
         panelHeader.setLayout(new java.awt.GridBagLayout());
 
-        jButton1.setBackground(new java.awt.Color(255, 102, 102));
-        jButton1.setForeground(new java.awt.Color(255, 102, 102));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/sair.png"))); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnSair.setBackground(new java.awt.Color(255, 102, 102));
+        btnSair.setForeground(new java.awt.Color(255, 102, 102));
+        btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/sair.png"))); // NOI18N
+        btnSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnSairActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -128,7 +128,7 @@ public class Cliente extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
-        panelHeader.add(jButton1, gridBagConstraints);
+        panelHeader.add(btnSair, gridBagConstraints);
 
         lblTitulo.setFont(new java.awt.Font("Courier New", 1, 36)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(255, 214, 72));
@@ -174,37 +174,36 @@ public class Cliente extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Courier New", 1, 18)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Login");
 
         javax.swing.GroupLayout panelLoginLayout = new javax.swing.GroupLayout(panelLogin);
         panelLogin.setLayout(panelLoginLayout);
         panelLoginLayout.setHorizontalGroup(
             panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelLoginLayout.createSequentialGroup()
-                .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelLoginLayout.createSequentialGroup()
-                        .addGap(194, 194, 194)
-                        .addComponent(jLabel1))
-                    .addGroup(panelLoginLayout.createSequentialGroup()
-                        .addGap(101, 101, 101)
-                        .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel2)
-                            .addComponent(txtNome)
-                            .addComponent(btnConectar, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE))))
-                .addContainerGap(162, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLoginLayout.createSequentialGroup()
+                .addGap(93, 93, 93)
+                .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelLoginLayout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(373, 373, 373))
+                    .addComponent(txtNome, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnConectar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(78, 78, 78))
         );
         panelLoginLayout.setVerticalGroup(
             panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLoginLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addGap(46, 46, 46)
                 .addComponent(jLabel1)
-                .addGap(36, 36, 36)
+                .addGap(47, 47, 47)
                 .addComponent(jLabel2)
                 .addGap(4, 4, 4)
                 .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnConectar)
-                .addContainerGap(176, Short.MAX_VALUE))
+                .addContainerGap(177, Short.MAX_VALUE))
         );
 
         panelCard.add(panelLogin, "login");
@@ -234,7 +233,7 @@ public class Cliente extends javax.swing.JFrame {
 
         jlistClientes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jlistClientes.setFocusable(false);
-        jScrollPane2.setViewportView(jlistClientes);
+        scrollListClientes.setViewportView(jlistClientes);
 
         javax.swing.GroupLayout panelChatLayout = new javax.swing.GroupLayout(panelChat);
         panelChat.setLayout(panelChatLayout);
@@ -249,7 +248,7 @@ public class Cliente extends javax.swing.JFrame {
                         .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scrollListClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
         );
         panelChatLayout.setVerticalGroup(
@@ -258,12 +257,12 @@ public class Cliente extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addGroup(panelChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelChatLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnEnviar)))
-                    .addComponent(jScrollPane2))
+                    .addComponent(scrollListClientes))
                 .addGap(19, 19, 19))
         );
 
@@ -290,15 +289,31 @@ public class Cliente extends javax.swing.JFrame {
             chat.desconectCliente(listener);
         } catch (RemoteException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Houve um erro ao tentar desconectar do servidor", 
+                    "Erro ao desconectar do servidor", JOptionPane.ERROR_MESSAGE);
         }
         CardLayout cl = (CardLayout) panelCard.getLayout();
         cl.show(panelCard, "login");
+        btnSair.setVisible(false);
+        txtArea.setText("");
+        
     }
     
-    private void preencherLista(List<ClientListenerIF> clientes) {
-        var model = (DefaultListModel) jlistClientes.getModel();
-        model.removeAllElements();
-        model.addAll(clientes);
+    private void atualizarLista() {
+        try {
+            List<ClientListenerIF> clientes = chat.getClientes();
+            DefaultListModel<String> model = new DefaultListModel<>();
+            List<String> clieteNomes = new ArrayList<>();
+            for (var c : clientes) {
+                clieteNomes.add(c.getNome());
+            }
+            model.addAll(clieteNomes);
+            jlistClientes.setModel(model);
+        } catch (RemoteException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Houve um erro ao atualizar a lista de clientes conectados", 
+                    "Erro ao atualizar clientes", JOptionPane.ERROR_MESSAGE);
+        }
     }
     private void enviarMensagem() {
         try {
@@ -306,7 +321,9 @@ public class Cliente extends javax.swing.JFrame {
             chat.enviarMsg(nome, msg); // Chama o método remoto
             txtInput.setText("");
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(this, "Houve um erro ao tentar enviar sua mensagem", 
+                    "Erro ao enviar mensagem", JOptionPane.ERROR_MESSAGE);
         }
     }
     private void txtInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtInputActionPerformed
@@ -329,6 +346,7 @@ public class Cliente extends javax.swing.JFrame {
             // conectado com sucesso. Mostrar próxima tela
             CardLayout cl = (CardLayout) panelCard.getLayout();
             cl.show(panelCard, "chat");
+            btnSair.setVisible(true);
         } catch (RemoteException e) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, e);
             JOptionPane.showMessageDialog(this, "Erro ao conectar-se com o com o servidor: "+e.getMessage());
@@ -346,9 +364,9 @@ public class Cliente extends javax.swing.JFrame {
         btnConectarActionPerformed(evt);
     }//GEN-LAST:event_txtNomeActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         sairDoChat();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnSairActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         sairDoChat();
@@ -394,19 +412,19 @@ public class Cliente extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConectar;
     private javax.swing.JButton btnEnviar;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnSair;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JDialog jDialog2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JList<String> jlistClientes;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JPanel panelCard;
     private javax.swing.JPanel panelChat;
     private javax.swing.JPanel panelHeader;
     private javax.swing.JPanel panelLogin;
+    private javax.swing.JScrollPane scrollListClientes;
     private javax.swing.JTextArea txtArea;
     private javax.swing.JTextField txtInput;
     private javax.swing.JTextField txtNome;

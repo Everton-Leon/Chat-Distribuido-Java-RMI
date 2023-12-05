@@ -40,17 +40,25 @@ class ChatObj extends UnicastRemoteObject implements ChatIF{
     @Override
     public void registrarCliente(ClientListenerIF cl, String nome) throws RemoteException {
         clientes.add(cl);
+        notifyAtualizarClientes();
         enviarMsg("Servidor", nome+" entrou no chat!");
     }
     
     @Override
     public void desconectCliente(ClientListenerIF cl) throws RemoteException {
         clientes.remove(cl);
+        notifyAtualizarClientes();
         enviarMsg("Servidor", cl.getNome()+" saiu no chat!");
     }
 
     @Override
     public List<ClientListenerIF> getClientes() throws RemoteException {
         return clientes;
+    }
+    
+    private void notifyAtualizarClientes() throws RemoteException {
+        for (var cl : clientes) {
+            cl.atualizarClientes();
+        }
     }
 }
