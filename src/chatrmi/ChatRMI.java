@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-public class ChatRMI extends Thread{
+public class ChatRMI{
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -15,15 +15,10 @@ public class ChatRMI extends Thread{
             Logger.getLogger(ChatRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println("O lookAndFeel em uso é: "+UIManager.getLookAndFeel().getDescription());
-        new Servidor().setVisible(true);
-        ChatRMI chat = new ChatRMI();
-        chat.start();
-        chat = new ChatRMI();
-        chat.start();
-    }
-
-    @Override
-    public void run() {
-        new Cliente().setVisible(true);
+        Servidor servidor1 = new Servidor();
+        servidor1.setLocation(200, 0);
+        servidor1.setVisible(true);
+        new ChatThread(200, 400).start();
+        new ChatThread(1000, 400).start();
     }
 }

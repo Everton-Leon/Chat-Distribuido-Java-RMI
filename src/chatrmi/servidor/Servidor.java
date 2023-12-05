@@ -20,23 +20,31 @@ public class Servidor extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         btnIniciar = new javax.swing.JButton();
         btnParar = new javax.swing.JButton();
         lblMsgPorta = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(420, 343));
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jLabel2.setFont(new java.awt.Font("Courier New", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 214, 72));
         jLabel2.setText("Servidor");
-
-        jLabel3.setText("jLabel3");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 144, 0, 0);
+        jPanel1.add(jLabel2, gridBagConstraints);
 
         btnIniciar.setBackground(new java.awt.Color(0, 255, 0));
         btnIniciar.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
@@ -47,6 +55,12 @@ public class Servidor extends javax.swing.JFrame {
                 btnIniciarActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(23, 76, 0, 0);
+        jPanel1.add(btnIniciar, gridBagConstraints);
 
         btnParar.setBackground(new java.awt.Color(255, 0, 0));
         btnParar.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
@@ -57,45 +71,35 @@ public class Servidor extends javax.swing.JFrame {
                 btnPararActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(23, 105, 0, 0);
+        jPanel1.add(btnParar, gridBagConstraints);
 
         lblMsgPorta.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
         lblMsgPorta.setForeground(new java.awt.Color(255, 255, 255));
+        lblMsgPorta.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMsgPorta.setText(" ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 6;
+        gridBagConstraints.ipadx = 350;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 33, 5, 33);
+        jPanel1.add(lblMsgPorta, gridBagConstraints);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(84, 84, 84)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnIniciar)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnParar)
-                    .addComponent(jLabel2))
-                .addContainerGap(72, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addComponent(lblMsgPorta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(33, 33, 33))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnIniciar)
-                    .addComponent(btnParar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblMsgPorta)
-                .addGap(0, 14, Short.MAX_VALUE))
-        );
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/database-server.png"))); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 101, 0, 0);
+        jPanel1.add(jLabel1, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -111,6 +115,23 @@ public class Servidor extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnPararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPararActionPerformed
+        try {
+            // desvincula o objeto remoto do registro e encerrar o servidor.
+            UnicastRemoteObject.unexportObject(objetoRemoto, true);
+            System.out.println("Servidor RMI encerrado.");
+
+            // desativa a tela
+            setVisible(false);
+
+            // Encerra a aplicação fora da thread de despacho de eventos da interface gráfica
+            SwingUtilities.invokeLater(() -> System.exit(0));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnPararActionPerformed
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
         // Desativa o botão de iniciar e ativa o botão de parar
@@ -128,23 +149,6 @@ public class Servidor extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_btnIniciarActionPerformed
-
-    private void btnPararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPararActionPerformed
-        try {
-            // desvincula o objeto remoto do registro e encerrar o servidor.
-            UnicastRemoteObject.unexportObject(objetoRemoto, true);
-            System.out.println("Servidor RMI encerrado.");
-            
-            // desativa a tela
-            setVisible(false);
-            
-            // Encerra a aplicação fora da thread de despacho de eventos da interface gráfica
-            SwingUtilities.invokeLater(() -> System.exit(0));
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }//GEN-LAST:event_btnPararActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -181,8 +185,8 @@ public class Servidor extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIniciar;
     private javax.swing.JButton btnParar;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblMsgPorta;
     // End of variables declaration//GEN-END:variables
