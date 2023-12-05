@@ -17,13 +17,13 @@ class ChatObj extends UnicastRemoteObject implements ChatIF{
     }
 
     @Override
-    public void enviarMsg(String user, String msg) throws RemoteException {
+    public void enviarMsg(String user, String msg, String cor) throws RemoteException {
         Date dataHoraAtual = new Date();
         String hora = new SimpleDateFormat("HH:mm:ss").format(dataHoraAtual);
         String displayMsg = "[" + hora + "] " + user + ": "+msg;
         messageLog.add(displayMsg);
         for (var cliente : clientes) {
-            cliente.notificar(displayMsg);
+            cliente.notificar(hora, user, msg, cor);
         }
     }
 
@@ -40,15 +40,15 @@ class ChatObj extends UnicastRemoteObject implements ChatIF{
     @Override
     public void registrarCliente(ClientListenerIF cl, String nome) throws RemoteException {
         clientes.add(cl);
-        notifyAtualizarClientes();
-        enviarMsg("Servidor", nome+" entrou no chat!");
+        atualizarClientesBroadcast();
+        enviarMsg("Servidor", nome+" entrou no chat!", ClientListenerIF.ENTROU);
     }
     
     @Override
     public void desconectCliente(ClientListenerIF cl) throws RemoteException {
         clientes.remove(cl);
-        notifyAtualizarClientes();
-        enviarMsg("Servidor", cl.getNome()+" saiu no chat!");
+        atualizarClientesBroadcast();
+        enviarMsg("Servidor", cl.getNome()+" saiu no chat!", ClientListenerIF.SAIU);
     }
 
     @Override
@@ -56,7 +56,7 @@ class ChatObj extends UnicastRemoteObject implements ChatIF{
         return clientes;
     }
     
-    private void notifyAtualizarClientes() throws RemoteException {
+    private void atualizarClientesBroadcast() throws RemoteException {
         for (var cl : clientes) {
             cl.atualizarClientes();
         }

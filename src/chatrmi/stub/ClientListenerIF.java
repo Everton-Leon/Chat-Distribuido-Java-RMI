@@ -8,7 +8,11 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface ClientListenerIF extends Remote {
-    public void notificar(String msg) throws RemoteException;
+    public void notificar(String hora, String user, String msg, String cor) throws RemoteException;
     public void atualizarClientes() throws RemoteException;
     public String getNome() throws RemoteException;
+    
+    public static final String MENSAGEM = "black";
+    public static final String ENTROU = "green";
+    public static final String SAIU = "red";
 }

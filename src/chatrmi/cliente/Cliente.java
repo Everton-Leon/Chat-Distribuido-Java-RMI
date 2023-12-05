@@ -18,14 +18,22 @@ import javax.swing.JOptionPane;
 public class Cliente extends javax.swing.JFrame {
     class ClientListener extends UnicastRemoteObject implements ClientListenerIF{
         private static final long serialVersionUID = 1L;
+        private final String formatedMsg = """
+                             <html>
+                               <p style="width:300px;">
+                                <span style="color: gray;">[%s] </span>
+                                <b style="color: %s;">%s: </b>
+                                <span style="color:%s;">%s</span>
+                               </p>
+                             </html""";
         
         ClientListener() throws RemoteException {
         }
         
         @Override
-        public void notificar(String msg) throws RemoteException {
-            String textoAntigo = txtArea.getText();
-            txtArea.setText(textoAntigo+"\n"+msg);
+        public void notificar(String hora, String user, String msg, String cor) throws RemoteException {
+            String result = formatedMsg.formatted(hora, cor, user, cor, msg);
+            chatModel.addElement(result);
         }
 
         @Override
@@ -44,11 +52,13 @@ public class Cliente extends javax.swing.JFrame {
     
     private String nome;
     ClientListener listener;
+    private final DefaultListModel<String> chatModel = new DefaultListModel<>();
     
     public Cliente() {
         initComponents();
         btnSair.setVisible(false);
-    }    
+        chatArea.setModel(chatModel);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -72,12 +82,12 @@ public class Cliente extends javax.swing.JFrame {
         btnConectar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         panelChat = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtArea = new javax.swing.JTextArea();
         txtInput = new javax.swing.JTextField();
         btnEnviar = new javax.swing.JButton();
         scrollListClientes = new javax.swing.JScrollPane();
         jlistClientes = new javax.swing.JList<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        chatArea = new javax.swing.JList<>();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -104,6 +114,7 @@ public class Cliente extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAutoRequestFocus(false);
         setBackground(new java.awt.Color(0, 0, 0));
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -203,17 +214,12 @@ public class Cliente extends javax.swing.JFrame {
                 .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnConectar)
-                .addContainerGap(177, Short.MAX_VALUE))
+                .addContainerGap(148, Short.MAX_VALUE))
         );
 
         panelCard.add(panelLogin, "login");
 
         panelChat.setBackground(new java.awt.Color(0, 0, 0));
-
-        txtArea.setColumns(20);
-        txtArea.setRows(5);
-        txtArea.setWrapStyleWord(true);
-        jScrollPane1.setViewportView(txtArea);
 
         txtInput.setToolTipText("");
         txtInput.setName("Mensagem"); // NOI18N
@@ -235,18 +241,23 @@ public class Cliente extends javax.swing.JFrame {
         jlistClientes.setFocusable(false);
         scrollListClientes.setViewportView(jlistClientes);
 
+        chatArea.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        chatArea.setFocusable(false);
+        chatArea.setSelectionBackground(jlistClientes.getBackground());
+        jScrollPane2.setViewportView(chatArea);
+
         javax.swing.GroupLayout panelChatLayout = new javax.swing.GroupLayout(panelChat);
         panelChat.setLayout(panelChatLayout);
         panelChatLayout.setHorizontalGroup(
             panelChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelChatLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addGroup(panelChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(panelChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelChatLayout.createSequentialGroup()
-                        .addComponent(txtInput)
+                        .addComponent(txtInput, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(scrollListClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
@@ -257,12 +268,12 @@ public class Cliente extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addGroup(panelChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelChatLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnEnviar)))
-                    .addComponent(scrollListClientes))
+                    .addComponent(scrollListClientes, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE))
                 .addGap(19, 19, 19))
         );
 
@@ -295,8 +306,7 @@ public class Cliente extends javax.swing.JFrame {
         CardLayout cl = (CardLayout) panelCard.getLayout();
         cl.show(panelCard, "login");
         btnSair.setVisible(false);
-        txtArea.setText("");
-        
+        chatModel.removeAllElements();
     }
     
     private void atualizarLista() {
@@ -318,7 +328,7 @@ public class Cliente extends javax.swing.JFrame {
     private void enviarMensagem() {
         try {
             String msg = txtInput.getText();
-            chat.enviarMsg(nome, msg); // Chama o método remoto
+            chat.enviarMsg(nome, msg, ClientListenerIF.MENSAGEM); // Chama o método remoto
             txtInput.setText("");
         } catch (RemoteException e) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, e);
@@ -413,11 +423,12 @@ public class Cliente extends javax.swing.JFrame {
     private javax.swing.JButton btnConectar;
     private javax.swing.JButton btnEnviar;
     private javax.swing.JButton btnSair;
+    private javax.swing.JList<String> chatArea;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JDialog jDialog2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JList<String> jlistClientes;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JPanel panelCard;
@@ -425,7 +436,6 @@ public class Cliente extends javax.swing.JFrame {
     private javax.swing.JPanel panelHeader;
     private javax.swing.JPanel panelLogin;
     private javax.swing.JScrollPane scrollListClientes;
-    private javax.swing.JTextArea txtArea;
     private javax.swing.JTextField txtInput;
     private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
