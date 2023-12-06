@@ -1,6 +1,5 @@
 package chatrmi;
 
-import chatrmi.cliente.Cliente;
 import chatrmi.servidor.Servidor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +17,7 @@ public class ChatRMI{
         Servidor servidor1 = new Servidor();
         servidor1.setLocation(200, 0);
         servidor1.setVisible(true);
-        new ChatThread(200, 400).start();
-        new ChatThread(1000, 400).start();
+        new ChatThread(200, 500).start();
+        new ChatThread(1000, 500).start();
     }
 }
