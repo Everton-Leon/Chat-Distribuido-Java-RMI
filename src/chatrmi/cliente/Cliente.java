@@ -5,6 +5,7 @@ import java.rmi.registry.Registry;
 import chatrmi.stub.ChatIF;
 import chatrmi.stub.ClientListenerIF;
 import java.awt.CardLayout;
+import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -77,10 +78,10 @@ public class Cliente extends javax.swing.JFrame {
         lblTitulo = new javax.swing.JLabel();
         panelCard = new javax.swing.JPanel();
         panelLogin = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
         txtNome = new javax.swing.JTextField();
         btnConectar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        txtServidor = new javax.swing.JTextField();
         panelChat = new javax.swing.JPanel();
         txtInput = new javax.swing.JTextField();
         btnEnviar = new javax.swing.JButton();
@@ -164,10 +165,7 @@ public class Cliente extends javax.swing.JFrame {
 
         panelLogin.setBackground(new java.awt.Color(0, 0, 0));
 
-        jLabel2.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Nome:");
-
+        txtNome.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nome", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ebrima", 1, 14))); // NOI18N
         txtNome.setFocusCycleRoot(true);
         txtNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -188,6 +186,9 @@ public class Cliente extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Login");
 
+        txtServidor.setText("localhost");
+        txtServidor.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "IP do servidor", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ebrima", 1, 14))); // NOI18N
+
         javax.swing.GroupLayout panelLoginLayout = new javax.swing.GroupLayout(panelLogin);
         panelLogin.setLayout(panelLoginLayout);
         panelLoginLayout.setHorizontalGroup(
@@ -195,12 +196,10 @@ public class Cliente extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLoginLayout.createSequentialGroup()
                 .addGap(93, 93, 93)
                 .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtServidor)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelLoginLayout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(373, 373, 373))
                     .addComponent(txtNome, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnConectar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnConectar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE))
                 .addGap(78, 78, 78))
         );
         panelLoginLayout.setVerticalGroup(
@@ -208,13 +207,13 @@ public class Cliente extends javax.swing.JFrame {
             .addGroup(panelLoginLayout.createSequentialGroup()
                 .addGap(46, 46, 46)
                 .addComponent(jLabel1)
-                .addGap(47, 47, 47)
-                .addComponent(jLabel2)
-                .addGap(4, 4, 4)
+                .addGap(18, 18, 18)
                 .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtServidor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(btnConectar)
-                .addContainerGap(148, Short.MAX_VALUE))
+                .addContainerGap(126, Short.MAX_VALUE))
         );
 
         panelCard.add(panelLogin, "login");
@@ -239,11 +238,14 @@ public class Cliente extends javax.swing.JFrame {
 
         jlistClientes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jlistClientes.setFocusable(false);
+        jlistClientes.setSelectionBackground(jlistClientes.getBackground());
+        jlistClientes.setSelectionForeground(jlistClientes.getForeground());
         scrollListClientes.setViewportView(jlistClientes);
 
         chatArea.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         chatArea.setFocusable(false);
-        chatArea.setSelectionBackground(jlistClientes.getBackground());
+        chatArea.setSelectionBackground(chatArea.getBackground());
+        chatArea.setSelectionForeground(chatArea.getForeground());
         jScrollPane2.setViewportView(chatArea);
 
         javax.swing.GroupLayout panelChatLayout = new javax.swing.GroupLayout(panelChat);
@@ -269,10 +271,10 @@ public class Cliente extends javax.swing.JFrame {
                 .addGroup(panelChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelChatLayout.createSequentialGroup()
                         .addComponent(jScrollPane2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnEnviar)))
+                        .addGap(7, 7, 7)
+                        .addGroup(panelChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtInput)
+                            .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                     .addComponent(scrollListClientes, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE))
                 .addGap(19, 19, 19))
         );
@@ -313,11 +315,12 @@ public class Cliente extends javax.swing.JFrame {
         try {
             List<ClientListenerIF> clientes = chat.getClientes();
             DefaultListModel<String> model = new DefaultListModel<>();
-            List<String> clieteNomes = new ArrayList<>();
+            List<String> clienteNomes = new ArrayList<>();
+            clienteNomes.add("<html><span style=\"color:green\">⚫ online</span>");
             for (var c : clientes) {
-                clieteNomes.add(c.getNome());
+                clienteNomes.add(c.getNome());
             }
-            model.addAll(clieteNomes);
+            model.addAll(clienteNomes);
             jlistClientes.setModel(model);
         } catch (RemoteException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -346,8 +349,14 @@ public class Cliente extends javax.swing.JFrame {
             return;
         }
         
+        if (txtServidor.getText().isBlank()) {
+            JOptionPane.showMessageDialog(this, "O IP do servidor não pode ser nulo", "Digite um IP", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         try {
-            registro = LocateRegistry.getRegistry("localhost", 1099); // Localiza o registro RMI no servidor
+            String ip = txtServidor.getText().trim();
+            registro = LocateRegistry.getRegistry(ip, 1099); // Localiza o registro RMI no servidor
             chat = (ChatIF) registro.lookup("MeuObjetoRemoto"); // Procura o objeto remoto
             
             nome = txtNome.getText();
@@ -427,7 +436,6 @@ public class Cliente extends javax.swing.JFrame {
     private javax.swing.JDialog jDialog1;
     private javax.swing.JDialog jDialog2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JList<String> jlistClientes;
     private javax.swing.JLabel lblTitulo;
@@ -438,5 +446,6 @@ public class Cliente extends javax.swing.JFrame {
     private javax.swing.JScrollPane scrollListClientes;
     private javax.swing.JTextField txtInput;
     private javax.swing.JTextField txtNome;
+    private javax.swing.JTextField txtServidor;
     // End of variables declaration//GEN-END:variables
 }

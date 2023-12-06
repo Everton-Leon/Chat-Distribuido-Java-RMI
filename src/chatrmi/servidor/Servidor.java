@@ -6,6 +6,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import javax.swing.SwingUtilities;
 import chatrmi.stub.ChatIF;
+import java.net.InetAddress;
 
 public class Servidor extends javax.swing.JFrame {
     
@@ -23,11 +24,11 @@ public class Servidor extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        lblTitulo = new javax.swing.JLabel();
+        lblIcon = new javax.swing.JLabel();
         btnIniciar = new javax.swing.JButton();
         btnParar = new javax.swing.JButton();
         lblMsgPorta = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(420, 343));
@@ -35,16 +36,25 @@ public class Servidor extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jLabel2.setFont(new java.awt.Font("Courier New", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 214, 72));
-        jLabel2.setText("Servidor");
+        lblTitulo.setFont(new java.awt.Font("Courier New", 1, 24)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(255, 214, 72));
+        lblTitulo.setText("Servidor");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(18, 144, 0, 0);
-        jPanel1.add(jLabel2, gridBagConstraints);
+        jPanel1.add(lblTitulo, gridBagConstraints);
+
+        lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/database-server.png"))); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 101, 0, 0);
+        jPanel1.add(lblIcon, gridBagConstraints);
 
         btnIniciar.setBackground(new java.awt.Color(0, 255, 0));
         btnIniciar.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
@@ -74,7 +84,6 @@ public class Servidor extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(23, 105, 0, 0);
         jPanel1.add(btnParar, gridBagConstraints);
@@ -83,23 +92,15 @@ public class Servidor extends javax.swing.JFrame {
         lblMsgPorta.setForeground(new java.awt.Color(255, 255, 255));
         lblMsgPorta.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMsgPorta.setText(" ");
+        lblMsgPorta.setToolTipText("");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 6;
-        gridBagConstraints.ipadx = 350;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 33, 5, 33);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 15, 0);
         jPanel1.add(lblMsgPorta, gridBagConstraints);
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/database-server.png"))); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 101, 0, 0);
-        jPanel1.add(jLabel1, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -109,7 +110,7 @@ public class Servidor extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
         );
 
         pack();
@@ -142,7 +143,8 @@ public class Servidor extends javax.swing.JFrame {
         try {
             objetoRemoto = new ChatObj();
             Registry registro = LocateRegistry.createRegistry(1099); // Cria um registro na porta 1099
-            lblMsgPorta.setText("Servidor inicializado na porta 1099");
+            String ipLocal = InetAddress.getLocalHost().getHostAddress();
+            lblMsgPorta.setText("<html>Servidor inicializado.<br>IP: "+ipLocal+"<br>Porta: 1099");
             registro.rebind("MeuObjetoRemoto", objetoRemoto); // Registra o objeto remoto no registro
             System.out.println("Servidor RMI pronto.");
         } catch (Exception e) {
@@ -185,9 +187,9 @@ public class Servidor extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIniciar;
     private javax.swing.JButton btnParar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblIcon;
     private javax.swing.JLabel lblMsgPorta;
+    private javax.swing.JLabel lblTitulo;
     // End of variables declaration//GEN-END:variables
 }
